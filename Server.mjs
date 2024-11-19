@@ -2,28 +2,29 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
-import connectDB from './db/conn.mjs';  // Assuming it's correct
-import DogRoutes from './Routes/dogRoutes.mjs';  // Correct import path for the routes
+import cors from 'cors'; // Import cors middleware
+import connectDB from './db/conn.mjs';
+import DogRoutes from './Routes/dogRoutes.mjs';
+import PantryRoutes from './Routes/pantryRoutes.mjs'; // Import pantry routes
 
-
-
-//setup
+// Setup
 dotenv.config();
 const app = express();
-let PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3001;
 
-//db connection
+// Database connection
 connectDB();
 
-//middleware
+// Middleware
+app.use(cors()); // Enable CORS for all origins
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json({ extended: true }));
+app.use(bodyParser.json());
 
-//routes
-app.use('/Dog', DogRoutes);
+// Routes
+app.use('/api/dogfoods', DogRoutes);
+app.use('/api/pantry', PantryRoutes); // Use pantry routes
 
-
-//listener
+// Listener
 app.listen(PORT, () => {
     console.log(`Server is running on PORT: ${PORT}`);
-  });
+});

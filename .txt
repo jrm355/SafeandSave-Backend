@@ -1,2 +1,2 @@
-npm init -y, npm i node, npm i express, npm i nodemon, npm i dotenv, npm i body-parser, npm i mongoose
+npm init -y, npm i node, npm i express, npm i nodemon, npm i dotenv, npm i body-parser, npm i mongoose npm i cors
 Server.mjs, .gitignore, .env, Folders for Data, Models, Routes
