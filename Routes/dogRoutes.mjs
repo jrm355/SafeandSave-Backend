@@ -1,13 +1,12 @@
 import express from 'express';
-import Dog from '../models/dogSchema.mjs';  // Correct relative import path
-
+import Dog from '../models/dogSchema.mjs';  // Import Dog model
 const router = express.Router();
 
-// READ - Get all Dog info
+// READ - Get all Dog food info
 router.get('/', async (req, res) => {
     try {
-        const dogs = await Dog.find({});  // Use Dog model to fetch data
-        res.json(dogs);
+        const dogFoods = await Dog.find({});
+        res.json(dogFoods);  // This will automatically include safetyDescription
     } catch (err) {
         console.error(err);
         res.status(500).json({ msg: 'Server Error' });
