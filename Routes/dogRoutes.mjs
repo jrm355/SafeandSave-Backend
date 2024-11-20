@@ -7,11 +7,9 @@ const router = express.Router();
 router.post('/', async (req, res) => {
     try {
         const { name, SafetyRating } = req.body;
-        // Validate input
         if (!name || SafetyRating === undefined) {
             return res.status(400).json({ msg: 'Please provide both name and safety rating.' });
         }
-
         const newDog = new Dog({ name, SafetyRating });
         const savedDog = await newDog.save();
         res.status(201).json(savedDog);
@@ -25,27 +23,31 @@ router.post('/', async (req, res) => {
 router.get('/', async (req, res) => {
     try {
         const dogFoods = await Dog.find({});
-        res.json(dogFoods);  // This will include safetyDescription automatically due to the virtual field
+        res.json(dogFoods);
     } catch (err) {
         console.error(err);
         res.status(500).json({ msg: 'Server Error' });
     }
 });
 
-// READ - Get a specific dog food by ID
-router.get('/:id', async (req, res) => {
+// READ - Get a dog food by name
+router.get('/search', async (req, res) => {
     try {
-        const dogFood = await Dog.findById(req.params.id);
-        if (!dogFood) {
-            return res.status(404).json({ msg: 'Dog food not found' });
+        const { food } = req.query;
+        console.log(`Searching for food: ${food}`); // Add this line
+
+        const dogFood = await Dog.find({ name: new RegExp(`^${food}$`, 'i') });
+
+        if (!dogFood || dogFood.length === 0) {
+            return res.status(404).json({ msg: 'Food not found' });
         }
+
         res.json(dogFood);
     } catch (err) {
         console.error(err);
         res.status(500).json({ msg: 'Server Error' });
     }
 });
-
 // UPDATE - Edit a dog food by ID
 router.put('/:id', async (req, res) => {
     try {

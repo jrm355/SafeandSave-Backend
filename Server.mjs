@@ -16,12 +16,17 @@ const PORT = process.env.PORT || 3001;
 connectDB();
 
 // Middleware
-app.use(cors()); // Enable CORS for all origins
+app.use(cors({
+    origin: '*',  // Allow all origins
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true,
+  }));
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // Routes
-app.use('/api/dogfoods', DogRoutes);
+app.use('/api/dogFoods', DogRoutes);
 app.use('/api/pantry', PantryRoutes); // Use pantry routes
 
 // Listener
