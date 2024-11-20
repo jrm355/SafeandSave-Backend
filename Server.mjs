@@ -6,6 +6,7 @@ import cors from 'cors'; // Import cors middleware
 import connectDB from './db/conn.mjs';
 import DogRoutes from './Routes/dogRoutes.mjs';
 import PantryRoutes from './Routes/pantryRoutes.mjs'; // Import pantry routes
+import SafetyRoutes from './Routes/safetyRoutes.mjs'; 
 
 // Setup
 dotenv.config();
@@ -28,6 +29,7 @@ app.use(bodyParser.json());
 // Routes
 app.use('/api/dogFoods', DogRoutes);
 app.use('/api/pantry', PantryRoutes); // Use pantry routes
+app.use('/api/safety', SafetyRoutes);
 
 // Listener
 app.listen(PORT, () => {
