@@ -19,24 +19,19 @@ router.post('/', async (req, res) => {
     }
 });
 
-// READ - Get all dog food items
-router.get('/', async (req, res) => {
-    try {
-        const dogFoods = await Dog.find({});
-        res.json(dogFoods);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ msg: 'Server Error' });
-    }
-});
-
-// READ - Get a dog food by name
+// READ - Get a dog food by name (case-insensitive, partial match allowed)
 router.get('/search', async (req, res) => {
     try {
         const { food } = req.query;
-        console.log(`Searching for food: ${food}`); // Add this line
 
-        const dogFood = await Dog.find({ name: new RegExp(`^${food}$`, 'i') });
+        if (!food) {
+            return res.status(400).json({ msg: 'Please provide a food name to search for.' });
+        }
+
+        console.log(`Searching for food: ${food}`);
+        
+        // Perform case-insensitive partial matching
+        const dogFood = await Dog.find({ name: { $regex: food, $options: 'i' } });
 
         if (!dogFood || dogFood.length === 0) {
             return res.status(404).json({ msg: 'Food not found' });
@@ -44,10 +39,24 @@ router.get('/search', async (req, res) => {
 
         res.json(dogFood);
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ msg: 'Server Error' });
+        console.error('Error in search route:', err.message);
+        res.status(500).json({ msg: 'Server Error', error: err.message });
     }
 });
+
+router.get('/', async (req, res) => {
+    try {
+        const dogFoods = await Dog.find({}, 'name'); // Fetch only the `name` field
+        if (dogFoods.length === 0) {
+            return res.status(404).json({ msg: 'No dog foods found.' });
+        }
+        res.json(dogFoods);
+    } catch (err) {
+        console.error('Error fetching dog foods:', err.message);
+        res.status(500).json({ msg: 'Server Error', error: err.message });
+    }
+});
+
 // UPDATE - Edit a dog food by ID
 router.put('/:id', async (req, res) => {
     try {

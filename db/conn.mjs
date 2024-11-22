@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-dotenv.config(); // Make sure this is at the top of your file
+dotenv.config(); 
 
-// console.log('MongoDB URI:', process.env.mongoURI); // Check if the value is undefined
+// Check if the value is undefined
 
 const connectionString = process.env.mongoURI;
 console.log(process.env)
