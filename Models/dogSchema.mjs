@@ -13,19 +13,19 @@ const DogSchema = new mongoose.Schema({
     }
 });
 
-// Add a virtual field that will return the description based on SafetyRating
+// virtual field that will return the description based on SafetyRating
 DogSchema.virtual('safetyDescription').get(function() {
     switch (this.SafetyRating) {
         case 1:
-            return 'Safe to eat';
+            return 'Safe to eat, as long as it is properly prepared. Any additional ingredients should be individually looked up';
         case 2:
-            return 'Safe in moderation';
+            return 'Safe in moderation, as long as it is properly prepared. Any additional ingredients should be individually looked up';
         case 3:
-            return 'Not recommended';
+            return 'Not recommended, not good for your dog but probably will not hurt them in moderation';
         case 4:
-            return 'Potentially dangerous';
+            return 'Potentially dangerous, avoid feed this to your dog, monitor your dog after consumption, and consider contacting a vet if there is a change in behavior';
         case 5:
-            return 'Harmful, potentially poisonous';
+            return 'Harmful, potentially poisonous, monitor your animal and contact a vet immediately if they consume this food';
         default:
             return 'Unknown rating';
     }

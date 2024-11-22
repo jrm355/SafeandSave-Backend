@@ -2,11 +2,10 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
-import cors from 'cors'; // Import cors middleware
+import cors from 'cors'; 
 import connectDB from './db/conn.mjs';
 import DogRoutes from './Routes/dogRoutes.mjs';
-import PantryRoutes from './Routes/pantryRoutes.mjs'; // Import pantry routes
-import SafetyRoutes from './Routes/safetyRoutes.mjs'; 
+import PantryRoutes from './Routes/pantryRoutes.mjs'; 
 
 // Setup
 dotenv.config();
@@ -28,8 +27,8 @@ app.use(bodyParser.json());
 
 // Routes
 app.use('/api/dogFoods', DogRoutes);
-app.use('/api/pantry', PantryRoutes); // Use pantry routes
-app.use('/api/safety', SafetyRoutes);
+app.use('/api/pantry', PantryRoutes); 
+// app.use('/api/safety', SafetyRoutes);
 
 // Listener
 app.listen(PORT, () => {

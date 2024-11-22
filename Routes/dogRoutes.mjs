@@ -43,7 +43,7 @@ router.get('/search', async (req, res) => {
         res.status(500).json({ msg: 'Server Error', error: err.message });
     }
 });
-
+//Get all dog foods, needed for autofill
 router.get('/', async (req, res) => {
     try {
         const dogFoods = await Dog.find({}, 'name'); // Fetch only the `name` field
